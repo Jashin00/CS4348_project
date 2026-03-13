@@ -88,7 +88,7 @@ def main() -> None:
             break
 
         # accept both PASS and PASSKEY because the project sheet is inconsistent
-        elif command in ("PASSKEY"):
+        elif command == "PASSKEY":
             if not argument:
                 send_error("Password missing")
                 continue

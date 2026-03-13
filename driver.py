@@ -219,7 +219,7 @@ def main() -> None:
     log_filename = sys.argv[1]
 
     # history lasts only for this run
-    history: list[str] = []
+    history = []
 
     try:
         # start logger process

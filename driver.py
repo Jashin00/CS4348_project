@@ -152,7 +152,7 @@ def handle_decrypt(enc_proc: subprocess.Popen, logger_proc: subprocess.Popen, hi
     if response.startswith("RESULT"):
         parts = response.split(maxsplit=1)
         result = parts[1] if len(parts) > 1 else ""
-        print(f"Decrypted result: {result}")
+        print(f"Decrypted result: {result} \n")
 
         # save decrypted output in history
         if result:

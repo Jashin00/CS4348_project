@@ -65,7 +65,7 @@ def choose_from_history(history, label: str):
         print("Error: Invalid history selection.")
 
 
-def get_string_with_history(history, purpose: str, store_new: bool) -> str | None:
+def get_string_with_history(history, purpose: str, store_new: bool):
     # ask user if they want to use history or type a new string
     while True:
         use_history = input(f"Use history for {purpose}? (y/n): ").strip().lower()

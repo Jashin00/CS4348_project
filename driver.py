@@ -36,7 +36,7 @@ def send_encryption_command(enc_proc: subprocess.Popen, command: str) -> str:
     return response.rstrip("\n")
 
 
-def choose_from_history(history: list[str], label: str) -> str | None:
+def choose_from_history(history, label: str):
     # if no history exists, user has to enter a new string
     if not history:
         print("History is empty.")
@@ -65,7 +65,7 @@ def choose_from_history(history: list[str], label: str) -> str | None:
         print("Error: Invalid history selection.")
 
 
-def get_string_with_history(history: list[str], purpose: str, store_new: bool) -> str | None:
+def get_string_with_history(history, purpose: str, store_new: bool) -> str | None:
     # ask user if they want to use history or type a new string
     while True:
         use_history = input(f"Use history for {purpose}? (y/n): ").strip().lower()
@@ -97,7 +97,7 @@ def get_string_with_history(history: list[str], purpose: str, store_new: bool) -
             print("Error: Please enter y or n.")
 
 
-def handle_password(enc_proc: subprocess.Popen, logger_proc: subprocess.Popen, history: list[str]) -> None:
+def handle_password(enc_proc: subprocess.Popen, logger_proc: subprocess.Popen, history) -> None:
     # get password from user, but do not store it in history
     password = get_string_with_history(history, "password", store_new=False)
     if password is None:
@@ -116,7 +116,7 @@ def handle_password(enc_proc: subprocess.Popen, logger_proc: subprocess.Popen, h
         log_message(logger_proc, f"ERROR password failed: {response}")
 
 
-def handle_encrypt(enc_proc: subprocess.Popen, logger_proc: subprocess.Popen, history: list[str]) -> None:
+def handle_encrypt(enc_proc: subprocess.Popen, logger_proc: subprocess.Popen, history) -> None:
     # get plaintext from history or user input
     text = get_string_with_history(history, "encrypt", store_new=True)
     if text is None:
@@ -140,7 +140,8 @@ def handle_encrypt(enc_proc: subprocess.Popen, logger_proc: subprocess.Popen, hi
         log_message(logger_proc, f"ERROR encrypt failed: {response}")
 
 
-def handle_decrypt(enc_proc: subprocess.Popen, logger_proc: subprocess.Popen, history: list[str]) -> None:
+def handle_decrypt(enc_proc: subprocess.Popen, logger_proc: subprocess.Popen, history
+                   ) -> None:
     # get ciphertext from history or user input
     text = get_string_with_history(history, "decrypt", store_new=True)
     if text is None:
@@ -164,7 +165,7 @@ def handle_decrypt(enc_proc: subprocess.Popen, logger_proc: subprocess.Popen, hi
         log_message(logger_proc, f"ERROR decrypt failed: {response}")
 
 
-def show_history(history: list[str], logger_proc: subprocess.Popen) -> None:
+def show_history(history, logger_proc: subprocess.Popen) -> None:
     # display everything saved during this run
     log_message(logger_proc, "COMMAND history")
 
@@ -225,7 +226,7 @@ def main() -> None:
         logger_proc = subprocess.Popen(
             [sys.executable, "logger.py", log_filename],
             stdin=subprocess.PIPE,
-            text=True
+            universal_newlines=True
         )
 
         # start encryption process
@@ -233,7 +234,7 @@ def main() -> None:
             [sys.executable, "encryption.py"],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            text=True
+            universal_newlines=True
         )
 
     except Exception as e:
